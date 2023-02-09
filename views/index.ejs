@@ -25,16 +25,35 @@
                   Select a Symbol
                 </button>
                 <ul id="TickerType" class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" data-value="value1">AAPL</a></li>
-                  <li><a class="dropdown-item" href="#" data-value="value2">GOOG</a></li>
-                  <li><a class="dropdown-item" href="#" data-value="value3">TESLA</a></li>
+                  <a class="dropdown-item" href="#">AAPL</a>
+                  <a class="dropdown-item" href="#">GOOGL</a>
+                  <a class="dropdown-item" href="#">TSLA</a>
                 </ul>
                 <button id="OrderMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Select an Order Type
                 </button>
                 <ul id="OrderType" class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Market</a></li>
-                    <li><a class="dropdown-item" href="#">Limit</a></li>
+                    <a class="dropdown-item" href="#">Market</a>
+                    <a class="dropdown-item" href="#">Limit</a>
+                </ul>
+                <button id="QuantityButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Quantity
+                </button>
+                <ul id="Quantity" class="dropdown-menu">
+                    <a class="dropdown-item" href="#">1</a>
+                    <a class="dropdown-item" href="#">5</a>
+                    <a class="dropdown-item" href="#">10</a>
+                    <a class="dropdown-item" href="#">50</a>
+                    <a class="dropdown-item" href="#">100</a>
+                </ul>
+                <button id="RiskRewardButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Set your Risk/Reward
+                </button>
+                <ul id="RiskReward" class="dropdown-menu">
+                    <a class="dropdown-item" href="#">5%/10%</a>
+                    <a class="dropdown-item" href="#">5%/15%</a>
+                    <a class="dropdown-item" href="#">3%/10%</a>
+                    <a class="dropdown-item" href="#">3%/15%</a>
                 </ul>
                 <button id="place" type="button" class="btn btn-outline-success">Place Order</button>
             </div>
@@ -42,7 +61,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="js/dropdown.js"></script>
-        <script src="js/API.js"></script>
         <script src="js/place_order.js"></script>
     </body>
 </html>

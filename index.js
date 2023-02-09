@@ -2,7 +2,11 @@ const express = require('express');
 const path = require('path');
 const request = require('request');
 const Alpaca = require("@alpacahq/alpaca-trade-api");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var symbol = "";
+var order = "";
+var quantity = 0;
+var risk_reward = "";
 
 const port = 3000;
 
@@ -25,30 +29,49 @@ app.get('/', function(req, res){
   res.render('index');
 })
 
-app.post('/data', (request, response) => {
-  const formData = request.body;
-  console.log(formData);
-  response.status(200).render('index');
+app.post('/data1', (request, response) => {
+  symbol = request.body.TickerSymbol;
+  response.send(symbol)
 });
 
-app.post('/data1', (request, response) => {
-  var symbol = request.body.TickerSymbol;
-  var order = request.body.OrderType
-  console.log(symbol);
-  console.log(order);
+app.post('/data2', (request, response) => {
+  order = request.body.OrderType;
+  response.send(order)
+});
 
-  /*
-  const alpaca = new Alpaca();
+app.post('/data3', (request, response) => {
+  quantity = request.body.Quantity;
+  response.send(quantity)
+});
+
+app.post('/data4', (request, response) => {
+  risk_reward = request.body.RiskReward;
+  response.send(risk_reward)
+});
+
+app.post('/data5', (request, response) => {
+  response.write(symbol)
+  response.write(order)
+  response.write(quantity)
+
+  order = order.toLowerCase()
+  
+  const options = {
+    keyId: "PKVQDMIOIX8C99X0KCI5",
+    secretKey: "IK8N5HWG7KBCvF6L9yPJUvJVpaFwQJttPY9vL0AG",
+    paper: true,
+  };
+  const alpaca = new Alpaca(options);
   alpaca.createOrder({
     symbol: symbol,
-    qty: 1,
+    qty: quantity,
     side: "buy",
     type: order,
     time_in_force: "day",
   });
-  */
+  response.end();
+})
 
-});
 
 // Start the server
 app.listen(port, function() {
@@ -65,5 +88,23 @@ app.listen(port, function() {
   const alpaca = new Alpaca(options);
   alpaca.getAccount().then((account) => {
     console.log("Current Account:", account);
+  });
+  */
+
+
+
+  /*
+    const options = {
+    keyId: "PKVQDMIOIX8C99X0KCI5",
+    secretKey: "IK8N5HWG7KBCvF6L9yPJUvJVpaFwQJttPY9vL0AG",
+    paper: true,
+  };
+  const alpaca = new Alpaca();
+  alpaca.createOrder({
+    symbol: symbol,
+    qty: 1,
+    side: "buy",
+    type: order,
+    time_in_force: "day",
   });
   */
