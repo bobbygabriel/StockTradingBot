@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
 const request = require('request');
+require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
+//const getBars = require('./public/js/get_price')
+const getQoute = require('./public/js/get_price')
 var bodyParser = require('body-parser');
 var symbol = "";
 var order = "";
@@ -49,19 +52,29 @@ app.post('/data4', (request, response) => {
   response.send(risk_reward)
 });
 
-app.post('/data5', (request, response) => {
+app.post('/data5', async (request, response) => {
   response.write(symbol)
   response.write(order)
   response.write(quantity)
 
   order = order.toLowerCase()
   
+  /*
+  const now = new Date('02/10/2023 10:00 am')
+  const start = new Date(now - (2 * 60000)).toISOString();
+  const end = new Date(now - 60000).toISOString
+  const bars = await getBars({symbol, start, end})
+  */
+  const price = await getQoute(symbol)
+  console.log(price)
+
   const options = {
-    keyId: "PKVQDMIOIX8C99X0KCI5",
-    secretKey: "IK8N5HWG7KBCvF6L9yPJUvJVpaFwQJttPY9vL0AG",
+    keyId: process.env.APIKEY,
+    secretKey: process.env.SECRET,
     paper: true,
   };
   const alpaca = new Alpaca(options);
+  
   alpaca.createOrder({
     symbol: symbol,
     qty: quantity,
@@ -69,6 +82,7 @@ app.post('/data5', (request, response) => {
     type: order,
     time_in_force: "day",
   });
+  
   response.end();
 })
 
@@ -108,3 +122,6 @@ app.listen(port, function() {
     time_in_force: "day",
   });
   */
+
+
+  
