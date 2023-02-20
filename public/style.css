@@ -17,8 +17,19 @@ body{
 #PlaceOrder{
     text-align: center;
     padding: 10px;
-    margin-top: 40vh;
+    margin-top: 10vh;
 }
+
+#Positions{
+    text-align: left;
+    padding: 10px;
+    width: 500px;
+    height: 200px;
+    color: wheat;
+    font-family: 'PT Serif', serif;
+
+}
+
 
 .container .dropdown{
     padding: 20px;

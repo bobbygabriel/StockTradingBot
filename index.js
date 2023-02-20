@@ -5,6 +5,7 @@ require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
 //const getBars = require('./public/js/get_price')
 const getQoute = require('./public/js/get_price')
+
 var bodyParser = require('body-parser');
 var symbol = "";
 var order = "";
@@ -59,12 +60,6 @@ app.post('/data5', async (request, response) => {
 
   order = order.toLowerCase()
   
-  /*
-  const now = new Date('02/10/2023 10:00 am')
-  const start = new Date(now - (2 * 60000)).toISOString();
-  const end = new Date(now - 60000).toISOString
-  const bars = await getBars({symbol, start, end})
-  */
   const price = await getQoute(symbol)
   console.log(price)
 
@@ -84,6 +79,18 @@ app.post('/data5', async (request, response) => {
   });
   
   response.end();
+})
+
+app.get('/data6', async (request, response) => {
+  const options = {
+    keyId: process.env.APIKEY,
+    secretKey: process.env.SECRET,
+    paper: true,
+  };
+  const alpaca = new Alpaca(options);
+  var positions = await alpaca.getPositions();
+  response.send(positions)
+
 })
 
 
