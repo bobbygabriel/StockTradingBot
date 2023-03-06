@@ -3,8 +3,6 @@ const path = require('path');
 const request = require('request');
 require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
-//const getBars = require('./public/js/get_price')
-const getQoute = require('./public/js/get_price')
 
 var bodyParser = require('body-parser');
 var symbol = "";
@@ -27,6 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // parse application/json
 app.use(bodyParser.json())
+
+const options = {
+  keyId: process.env.APIKEY,
+  secretKey: process.env.SECRET,
+  paper: true,
+};
+const alpaca = new Alpaca(options);
 
 // 'Home' Route
 app.get('/', function(req, res){
@@ -60,15 +65,11 @@ app.post('/data5', async (request, response) => {
 
   order = order.toLowerCase()
   
-  const price = await getQoute(symbol)
+  const price = await alpaca.getLatestQuote(symbol)
   console.log(price)
-
-  const options = {
-    keyId: process.env.APIKEY,
-    secretKey: process.env.SECRET,
-    paper: true,
-  };
-  const alpaca = new Alpaca(options);
+  const bars = await alpaca.getLatestBar(symbol)
+  console.log(bars)
+  //console.log(bars)
   
   alpaca.createOrder({
     symbol: symbol,
@@ -82,14 +83,16 @@ app.post('/data5', async (request, response) => {
 })
 
 app.get('/data6', async (request, response) => {
-  const options = {
-    keyId: process.env.APIKEY,
-    secretKey: process.env.SECRET,
-    paper: true,
-  };
   const alpaca = new Alpaca(options);
   var positions = await alpaca.getPositions();
   response.send(positions)
+
+})
+
+app.get('/data7', async (request, response) => {
+  const alpaca = new Alpaca(options);
+  var account = await alpaca.getAccount();
+  response.send(account)
 
 })
 
@@ -98,37 +101,6 @@ app.get('/data6', async (request, response) => {
 app.listen(port, function() {
     console.log(`app listening on http://localhost:${port}`);
   })
-
-
-/*
-  const options = {
-    keyId: "PKVQDMIOIX8C99X0KCI5",
-    secretKey: "IK8N5HWG7KBCvF6L9yPJUvJVpaFwQJttPY9vL0AG",
-    paper: true,
-  };
-  const alpaca = new Alpaca(options);
-  alpaca.getAccount().then((account) => {
-    console.log("Current Account:", account);
-  });
-  */
-
-
-
-  /*
-    const options = {
-    keyId: "PKVQDMIOIX8C99X0KCI5",
-    secretKey: "IK8N5HWG7KBCvF6L9yPJUvJVpaFwQJttPY9vL0AG",
-    paper: true,
-  };
-  const alpaca = new Alpaca();
-  alpaca.createOrder({
-    symbol: symbol,
-    qty: 1,
-    side: "buy",
-    type: order,
-    time_in_force: "day",
-  });
-  */
 
 
   

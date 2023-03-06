@@ -1,6 +1,6 @@
 const dataContainer = document.getElementById('openPositions');
 
-function updateData() {
+function updatePositionData() {
   axios.get('/data6')
   .then(response => {
     const dataArray = response.data;
@@ -15,4 +15,4 @@ function updateData() {
   });
 }
 
-setInterval(updateData, 5000);
+setInterval(updatePositionData, 5000);
