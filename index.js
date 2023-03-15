@@ -3,6 +3,8 @@ const path = require('path');
 const request = require('request');
 require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
+const { buyIfTwoBarsIncreasing } = require('./public/js/momentum_trade.js');
+
 
 var bodyParser = require('body-parser');
 var symbol = "";
@@ -66,16 +68,13 @@ app.post('/data5', async (request, response) => {
   order = order.toLowerCase()
   
   const price = await alpaca.getLatestQuote(symbol)
-  console.log(price)
-  const bars = await alpaca.getLatestBar(symbol)
-  console.log(bars)
-  //console.log(bars)
+  console.log("An order has been sent to Alpaca with: ", price)
   
   alpaca.createOrder({
     symbol: symbol,
     qty: quantity,
-    side: "buy",
-    type: order,
+    side: order,
+    type: "market",
     time_in_force: "day",
   });
   
@@ -96,11 +95,21 @@ app.get('/data7', async (request, response) => {
 
 })
 
+app.post('/data8', async (request, response) => {
+  console.log(symbol)
+  console.log(quantity)
+  try {
+    const result = await buyIfTwoBarsIncreasing(symbol, quantity);
+    response.json(result);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ error: 'Internal server error' });
+  }
+
+})
+
 
 // Start the server
 app.listen(port, function() {
     console.log(`app listening on http://localhost:${port}`);
   })
-
-
-  

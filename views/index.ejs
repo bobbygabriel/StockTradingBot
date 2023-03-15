@@ -38,6 +38,7 @@
             </div>
           </nav>
         <div class="container" id="PlaceOrder">
+          <h2 class="text-white">Place an Order</h1>
             <div class="dropdown" data-bs-theme="dark">
                 <button id="TickerMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Select a Symbol
@@ -51,8 +52,8 @@
                     Select an Order Type
                 </button>
                 <ul id="OrderType" class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Market</a>
-                    <a class="dropdown-item" href="#">Limit</a>
+                    <a class="dropdown-item" href="#">Buy</a>
+                    <a class="dropdown-item" href="#">Sell</a>
                 </ul>
                 <button id="QuantityButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Quantity
@@ -64,17 +65,10 @@
                     <a class="dropdown-item" href="#">50</a>
                     <a class="dropdown-item" href="#">100</a>
                 </ul>
-                <button id="RiskRewardButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Set your Risk/Reward
-                </button>
-                <ul id="RiskReward" class="dropdown-menu">
-                    <a class="dropdown-item" href="#">5%/10%</a>
-                    <a class="dropdown-item" href="#">5%/15%</a>
-                    <a class="dropdown-item" href="#">3%/10%</a>
-                    <a class="dropdown-item" href="#">3%/15%</a>
-                </ul>
                 <button id="place" type="button" class="btn btn-outline-success">Place Order</button>
+                <button id="momentum" type="button" class="btn btn-outline-success">Momentum Trading</button>
             </div>
+          </div>
         <div class="container" id="Positions">
             <nav class="navbar navbar-dark bg-dark" id="title">
                 <span class="navbar-brand mx-auto">Positions</span>
