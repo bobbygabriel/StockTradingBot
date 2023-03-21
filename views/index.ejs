@@ -1,86 +1,191 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com"> 
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-        <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">StockBot</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Load a Model</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Save a Model</a>
-                  </li>
-                </ul>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">TradeMind</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create a Model</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="ml-auto">
-                <button type="button" class="btn btn-secondary" data-container="body" id="AccountValue" data-toggle="popover">Account Value</button>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Symbol</label>
+                    <input type="text" class="form-control" id="symbol">
+                  </div>
+                  <div class="form-group">
+                    <label for="modelquantity">Quantity</label>
+                    <select class="form-control" id="risk">
+                      <option value="low">1</option>
+                      <option value="low">5</option>
+                      <option value="medium">10</option>
+                      <option value="high">50</option>
+                      <option value="high">100</option>
+                      <option value="high">custom</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="risk">Risk Level</label>
+                    <select class="form-control" id="risk">
+                      <option value="low">2%</option>
+                      <option value="medium">5%</option>
+                      <option value="high">10%</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="reward">Reward Level</label>
+                    <select class="form-control" id="reward">
+                      <option value="low">2:1</option>
+                      <option value="medium">3:1</option>
+                      <option value="high">5:1</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="time">Trading Hours</label>
+                    <select class="form-control" id="time">
+                      <option value="low">Custom</option>
+                      <option value="low">Morning - 9:30am to 12:00pm</option>
+                      <option value="medium">Afternoon - 12:00pm to 4:00pm</option>
+                      <option value="high">All Day</option>
+                    </select>
+                  <div class="form-group">
+                    <label for="indicators">Technical Indicators</label>
+                    <select class="form-control" id="indicators">
+                      <option value="low">N/A</option>
+                      <option value="low">VWAP</option>
+                      <option value="high">RSI</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="indicatorsspecs">Technical Indicators Specifications</label>
+                    <select class="form-control" id="indicatorsspecs">
+                      <option value="low">N/A</option>
+                      <option value="low">Buy when the price reaches the VWAP</option>
+                      <option value="low">Buy when the price is 5% below the VWAP</option>
+                      <option value="high">Buy when the price is 5% above the VWAP</option>
+                      <option value="high">Buy when the RSI crosses above 30</option>
+                      <option value="high">Buy when the RSI crosses above 50</option>
+                      <option value="high">Custom</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="indicators">Momentum Trading</label>
+                    <select class="form-control" id="momtrading">
+                      <option value="low">N/A</option>
+                      <option value="low">Buy when there are 2 uptrending bars</option>
+                      <option value="medium">Buy when there are 3 uptrending bars</option>
+                      <option value="high">Buy when there are 4 uptrending bars</option>
+                    </select>
+                  </div>
+                  </div>
+                </form>
               </div>
-            </div>
-          </nav>
-        <div class="container" id="PlaceOrder">
-          <h2 class="text-white">Place an Order</h1>
-            <div class="dropdown" data-bs-theme="dark">
-                <button id="TickerMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Select a Symbol
-                </button>
-                <ul id="TickerType" class="dropdown-menu">
-                  <a class="dropdown-item" href="#">AAPL</a>
-                  <a class="dropdown-item" href="#">GOOGL</a>
-                  <a class="dropdown-item" href="#">TSLA</a>
-                </ul>
-                <button id="OrderMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select an Order Type
-                </button>
-                <ul id="OrderType" class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Buy</a>
-                    <a class="dropdown-item" href="#">Sell</a>
-                </ul>
-                <button id="QuantityButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Quantity
-                </button>
-                <ul id="Quantity" class="dropdown-menu">
-                    <a class="dropdown-item" href="#">1</a>
-                    <a class="dropdown-item" href="#">5</a>
-                    <a class="dropdown-item" href="#">10</a>
-                    <a class="dropdown-item" href="#">50</a>
-                    <a class="dropdown-item" href="#">100</a>
-                </ul>
-                <button id="place" type="button" class="btn btn-outline-success">Place Order</button>
-                <button id="momentum" type="button" class="btn btn-outline-success">Momentum Trading</button>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary">Launch Model</button>
+              </div>
             </div>
           </div>
-        <div class="container" id="Positions">
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Create a Model</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Load a Model</a>
+            </li>
+          </ul>
+        </div>
+        <div class="ml-auto">
+          <button type="button" class="btn btn-secondary" data-container="body" id="AccountValue" data-toggle="popover">Account Value</button>
+        </div>
+      </div>
+    </nav>
+    <div class="container" id="PlaceOrder">
+      <div class="row">
+        <div class="col">
+        <h3 class="text-white">Place an Order</h3>
+          <div class="dropdown" data-bs-theme="dark">
+            <button id="TickerMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Select a Symbol
+            </button>
+            <ul id="TickerType" class="dropdown-menu">
+              <a class="dropdown-item" href="#">AAPL</a>
+              <a class="dropdown-item" href="#">GOOGL</a>
+              <a class="dropdown-item" href="#">TSLA</a>
+            </ul>
+            <button id="OrderMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Select an Order Type
+            </button>
+            <ul id="OrderType" class="dropdown-menu">
+                <a class="dropdown-item" href="#">Buy</a>
+                <a class="dropdown-item" href="#">Sell</a>
+            </ul>
+            <button id="QuantityButton" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Quantity
+            </button>
+            <ul id="Quantity" class="dropdown-menu">
+                <a class="dropdown-item" href="#">1</a>
+                <a class="dropdown-item" href="#">5</a>
+                <a class="dropdown-item" href="#">10</a>
+                <a class="dropdown-item" href="#">50</a>
+                <a class="dropdown-item" href="#">100</a>
+            </ul>
+            <button id="place" type="button" class="btn btn-outline-success">Place Order</button>
+            <!--<button id="momentum" type="button" class="btn btn-outline-success">Momentum Trading</button> -->
+          </div>
+        </div>
+        <div class="col">
+          <div class="container" id="Positions">
+            <h3 class="text-white">Positions</h3>
             <nav class="navbar navbar-dark bg-dark" id="title">
-                <span class="navbar-brand mx-auto">Positions</span>
+                <span class="navbar-brand mx-auto text-white"></span>
             </nav>
             <div class="overflow-auto border border-dark border-5" id="openPositions" style="padding: 5px;">
             </div>
+          </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="js/dropdown.js"></script>
-        <script src="js/place_order.js"></script>
-        <script src="js/get_current_positions.js"></script>
-        <script src="js/get_account_value.js"></script>
-    </body>
+      </div>
+    </div>
+    <div class="container">
+      <canvas id="profitChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
+    <script src="js/profit_chart.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/place_order.js"></script>
+    <script src="js/get_current_positions.js"></script>
+    <script src="js/get_account_value.js"></script>
+  </body>
 </html>

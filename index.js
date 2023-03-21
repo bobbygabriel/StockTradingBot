@@ -108,6 +108,15 @@ app.post('/data8', async (request, response) => {
 
 })
 
+app.get('/data9', async (request, response) => {
+  const alpaca = new Alpaca(options);
+  var portfolioHistory = await alpaca.getPortfolioHistory({
+    period: '1M',
+    timeframe: '1D',
+  });
+  response.send(portfolioHistory);
+})
+
 
 // Start the server
 app.listen(port, function() {

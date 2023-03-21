@@ -16,11 +16,11 @@ async function buyIfTwoBarsIncreasing(symbol, qty) {
 
   const oneMinuteMS = 60000;
   const now = new Date();
-  const start = new Date(now - (2 * oneMinuteMS)).toISOString();
-  const end = new Date(now - oneMinuteMS).toISOString();
+  const start = new Date(now - (18 * oneMinuteMS)).toISOString();
+  const end = new Date(now - (16 * oneMinuteMS)).toISOString();
   const barsIterator = await alpaca.getBarsV2(symbol, {
-    start: "2023-03-14T09:35:00Z",
-    end: "2023-03-14T09:37:00Z",
+    start: start,
+    end: end,
     timeframe: alpaca.newTimeframe(1, alpaca.timeframeUnit.MIN),
 
   });
