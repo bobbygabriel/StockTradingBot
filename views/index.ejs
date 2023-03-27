@@ -26,22 +26,26 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create a Model</h5>
+                <h5 class="modal-title" id="ModalLabel">Create a Model</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <form>
                   <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" id="modelName">
                   </div>
                   <div class="form-group">
                     <label for="name">Symbol</label>
-                    <input type="text" class="form-control" id="symbol">
+                    <select class="form-control" id="modelSymbol">
+                      <option value="stock1">AAPL</option>
+                      <option value="stock2">GOOGL</option>
+                      <option value="stock3">TSLA</option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="modelquantity">Quantity</label>
-                    <select class="form-control" id="risk">
+                    <select class="form-control" id="modelQuantity">
                       <option value="low">1</option>
                       <option value="low">5</option>
                       <option value="medium">10</option>
@@ -52,7 +56,7 @@
                   </div>
                   <div class="form-group">
                     <label for="risk">Risk Level</label>
-                    <select class="form-control" id="risk">
+                    <select class="form-control" id="modelRisk">
                       <option value="low">2%</option>
                       <option value="medium">5%</option>
                       <option value="high">10%</option>
@@ -60,7 +64,7 @@
                   </div>
                   <div class="form-group">
                     <label for="reward">Reward Level</label>
-                    <select class="form-control" id="reward">
+                    <select class="form-control" id="modelReward">
                       <option value="low">2:1</option>
                       <option value="medium">3:1</option>
                       <option value="high">5:1</option>
@@ -68,7 +72,7 @@
                   </div>
                   <div class="form-group">
                     <label for="time">Trading Hours</label>
-                    <select class="form-control" id="time">
+                    <select class="form-control" id="modelTime">
                       <option value="low">Custom</option>
                       <option value="low">Morning - 9:30am to 12:00pm</option>
                       <option value="medium">Afternoon - 12:00pm to 4:00pm</option>
@@ -76,7 +80,7 @@
                     </select>
                   <div class="form-group">
                     <label for="indicators">Technical Indicators</label>
-                    <select class="form-control" id="indicators">
+                    <select class="form-control" id="modelIndicator">
                       <option value="low">N/A</option>
                       <option value="low">VWAP</option>
                       <option value="high">RSI</option>
@@ -84,7 +88,7 @@
                   </div>
                   <div class="form-group">
                     <label for="indicatorsspecs">Technical Indicators Specifications</label>
-                    <select class="form-control" id="indicatorsspecs">
+                    <select class="form-control" id="modelIndicatorSpec">
                       <option value="low">N/A</option>
                       <option value="low">Buy when the price reaches the VWAP</option>
                       <option value="low">Buy when the price is 5% below the VWAP</option>
@@ -96,7 +100,7 @@
                   </div>
                   <div class="form-group">
                     <label for="indicators">Momentum Trading</label>
-                    <select class="form-control" id="momtrading">
+                    <select class="form-control" id="modelMomentum">
                       <option value="low">N/A</option>
                       <option value="low">Buy when there are 2 uptrending bars</option>
                       <option value="medium">Buy when there are 3 uptrending bars</option>
@@ -108,7 +112,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="saveModel">Save changes</button>
                 <button type="button" class="btn btn-primary">Launch Model</button>
               </div>
             </div>
@@ -160,7 +164,7 @@
                 <a class="dropdown-item" href="#">100</a>
             </ul>
             <button id="place" type="button" class="btn btn-outline-success">Place Order</button>
-            <!--<button id="momentum" type="button" class="btn btn-outline-success">Momentum Trading</button> -->
+            <!-- <button id="momentum" type="button" class="btn btn-outline-success">Momentum Trading</button> -->
           </div>
         </div>
         <div class="col">
@@ -173,15 +177,31 @@
             </div>
           </div>
         </div>
+        <div class="col">
+          <div class="container" id="SelectedModel">
+            <h3 class="text-white">Selected Model</h3>
+            <nav class="navbar navbar-dark bg-dark">
+              <span class="navbar-brand mx-auto text-white"></span>
+          </nav>
+          <div class="overflow-auto border border-dark border-5" style="padding: 5px;">
+            <div id="modelValues"></div>
+          </div>
+          <button id="StartAlgorithm" type="button" class="btn btn-outline-success">Start Trading</button>
+          <button id="StopAlgorithm" type="button" class="btn btn-outline-danger">Stop Trading</button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="container">
-      <canvas id="profitChart"></canvas>
+      <div class="container">
+        <div class="row">
+            <canvas id="profitChart"></canvas>
+        </div>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
+    <script src="js/created_model.js"></script>
     <script src="js/profit_chart.js"></script>
     <script src="js/dropdown.js"></script>
     <script src="js/place_order.js"></script>

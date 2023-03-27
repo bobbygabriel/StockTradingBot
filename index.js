@@ -11,6 +11,14 @@ var symbol = "";
 var order = "";
 var quantity = 0;
 var risk_reward = "";
+var modelSymbol = "";
+var modelQuantity = "";
+var modelRisk = "";
+var modelReward = "";
+var modelTime = "";
+var modelIndicator = "";
+var modelIndicatorSpec = "";
+var modelMomentum = "";
 
 const port = 3000;
 
@@ -61,6 +69,7 @@ app.post('/data4', (request, response) => {
 });
 
 app.post('/data5', async (request, response) => {
+  console.log(`Symbol: ${symbol} Quantity: ${quantity}`)
   response.write(symbol)
   response.write(order)
   response.write(quantity)
@@ -96,10 +105,8 @@ app.get('/data7', async (request, response) => {
 })
 
 app.post('/data8', async (request, response) => {
-  console.log(symbol)
-  console.log(quantity)
   try {
-    const result = await buyIfTwoBarsIncreasing(symbol, quantity);
+    const result = await buyIfTwoBarsIncreasing(modelSymbol, modelQuantity);
     response.json(result);
   } catch (error) {
     console.error(error);
@@ -115,6 +122,18 @@ app.get('/data9', async (request, response) => {
     timeframe: '1D',
   });
   response.send(portfolioHistory);
+})
+
+app.post('/data10', async (request, response) => {
+  modelSymbol = request.body.modelSymbol;
+  modelQuantity = request.body.modelQuantity;
+  modelRisk = request.body.modelRisk;
+  modelReward = request.body.modelReward;
+  modelTime = request.body.modelTime;
+  modelIndicator = request.body.modelIndicator;
+  modelIndicatorSpec = request.body.modelIndicatorSpec;
+  modelMomentum = request.body.modelMomentum;
+  console.log(modelSymbol, modelQuantity, modelRisk, modelReward, modelTime, modelIndicator, modelIndicatorSpec, modelMomentum)
 })
 
 

@@ -1,9 +1,13 @@
 
-var button = document.getElementById('place')
+button = document.getElementById('place')
 dropdown1 = document.getElementById('TickerType')
 dropdown2 = document.getElementById('OrderType')
 dropdown3 = document.getElementById('Quantity')
-var button1 = document.getElementById('momentum')
+button1 = document.getElementById('StartAlgorithm')
+button2 = document.getElementById('StopAlgorithm')
+
+let intervalId;
+
 
 
 
@@ -76,8 +80,23 @@ button1.addEventListener("click", function() {
     .catch(error => {
       console.error(error);
     });
-    alert('momentum trading started')
-    window.location.reload()
+    alert('Trading Started')
+
+    // run the backend code every minute
+  intervalId = setInterval(function() {
+    axios.post('/data8')
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, 60000); // 60000 milliseconds = 1 minute
 });
 
 
+
+button2.addEventListener("click", function() {
+  clearInterval(intervalId);
+  alert('Trading Stopped');
+});

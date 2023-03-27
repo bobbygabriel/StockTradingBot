@@ -10,15 +10,15 @@ const options = {
 
 const alpaca = new Alpaca(options);
 
-// Get data from previous 2 bars, need to look up documentation of getting previous bars
+// Get data from previous 2 bars
 
-async function buyIfTwoBarsIncreasing(symbol, qty) {
+async function buyIfTwoBarsIncreasing(modelSymbol, modelQuantity) {
 
   const oneMinuteMS = 60000;
   const now = new Date();
-  const start = new Date(now - (18 * oneMinuteMS)).toISOString();
-  const end = new Date(now - (16 * oneMinuteMS)).toISOString();
-  const barsIterator = await alpaca.getBarsV2(symbol, {
+  const start = new Date(now - (18 * oneMinuteMS)).toISOString(); // for real time change to 2, for test change to 18
+  const end = new Date(now - (16 * oneMinuteMS)).toISOString(); // for real time delete 0, for test change to 16
+  const barsIterator = await alpaca.getBarsV2(modelSymbol, {
     start: start,
     end: end,
     timeframe: alpaca.newTimeframe(1, alpaca.timeframeUnit.MIN),
@@ -38,13 +38,13 @@ async function buyIfTwoBarsIncreasing(symbol, qty) {
   // check if the previous two bars have increasing prices, if so, we will buy at market price
   if ((bar1 && bar2) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice)){
     const order = await alpaca.createOrder({
-      symbol: symbol,
-      qty: qty,
+      symbol: modelSymbol,
+      qty: modelQuantity,
       side: 'buy',
       type: 'market',
       time_in_force: 'gtc'
     });
-    console.log(`Bought ${symbol}`);
+    console.log(`Bought ${modelSymbol}`);
   }
   else{
     console.log("Criteria not satisfied")
