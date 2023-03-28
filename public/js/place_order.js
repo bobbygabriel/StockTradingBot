@@ -67,7 +67,6 @@ button.addEventListener("click", function() {
       console.error(error);
     });
     alert('Your order has been submitted!')
-    window.location.reload()
 });
 
 

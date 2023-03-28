@@ -3,7 +3,26 @@ const path = require('path');
 const request = require('request');
 require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
-const { buyIfTwoBarsIncreasing } = require('./public/js/momentum_trade.js');
+const { momentumTrading } = require('./public/js/momentum_trade.js');
+const { initializeApp } = require('firebase/app');
+const { getDatabase, push, ref, set } = require('firebase/database')
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBv7YesHh5bwUjEzOf-s8QCpIt2PhAdO0I",
+  authDomain: "trademind-42b3d.firebaseapp.com",
+  projectId: "trademind-42b3d",
+  storageBucket: "trademind-42b3d.appspot.com",
+  messagingSenderId: "574010239698",
+  appId: "1:574010239698:web:b0356fcb8bb3e56ccddb0b",
+  measurementId: "G-9YNYEVE9CR",
+  databaseURL: "https://trademind-42b3d-default-rtdb.firebaseio.com/"
+};
+
+ // Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const database = getDatabase(firebaseApp)
+
 
 
 var bodyParser = require('body-parser');
@@ -106,7 +125,7 @@ app.get('/data7', async (request, response) => {
 
 app.post('/data8', async (request, response) => {
   try {
-    const result = await buyIfTwoBarsIncreasing(modelSymbol, modelQuantity);
+    const result = await momentumTrading(modelSymbol, modelQuantity, modelMomentum);
     response.json(result);
   } catch (error) {
     console.error(error);
@@ -136,6 +155,31 @@ app.post('/data10', async (request, response) => {
   console.log(modelSymbol, modelQuantity, modelRisk, modelReward, modelTime, modelIndicator, modelIndicatorSpec, modelMomentum)
 })
 
+app.post('/data11', async (request, response) => {
+  modelName = request.body.modelName;
+  modelSymbol = request.body.modelSymbol;
+  modelQuantity = request.body.modelQuantity;
+  modelRisk = request.body.modelRisk;
+  modelReward = request.body.modelReward;
+  modelTime = request.body.modelTime;
+  modelIndicator = request.body.modelIndicator;
+  modelIndicatorSpec = request.body.modelIndicatorSpec;
+  modelMomentum = request.body.modelMomentum;
+  
+  const modelRef = push(ref(database, 'models'));
+  set(modelRef, {
+    name: modelName,
+    symbol: modelSymbol,
+    quantity: modelQuantity,
+    risk: modelRisk,
+    reward: modelReward,
+    time: modelTime,
+    indicator: modelIndicator,
+    indicatorSpec: modelIndicatorSpec,
+    momentum: modelMomentum
+  });
+
+})
 
 // Start the server
 app.listen(port, function() {
