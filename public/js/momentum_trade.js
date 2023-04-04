@@ -1,5 +1,6 @@
 require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
+const { async } = require('@firebase/util');
 
 const options = {
     keyId: process.env.APIKEY,
@@ -11,7 +12,7 @@ const options = {
 const alpaca = new Alpaca(options);
 
 // Get data from previous 2 bars
-async function momentumTrading(modelSymbol, modelQuantity, modelMomentum) {
+async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelRisk, modelReward) {
 
   const oneMinuteMS = 60000;
   const now = new Date();
@@ -47,7 +48,10 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum) {
           type: 'market',
           time_in_force: 'gtc'
         });
-        console.log(`Bought ${modelSymbol}`);
+        const price = await alpaca.getLatestQuote(modelSymbol)
+        
+        handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
+        
       }
       else{
         console.log("Criteria not satisfied")
@@ -65,7 +69,8 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum) {
           type: 'market',
           time_in_force: 'gtc'
         });
-        console.log(`Bought ${modelSymbol}`);
+        const price = await alpaca.getLatestQuote(modelSymbol)
+        handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
       }
       else{
         console.log("Criteria not satisfied")
@@ -84,7 +89,8 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum) {
           type: 'market',
           time_in_force: 'gtc'
         });
-        console.log(`Bought ${modelSymbol}`);
+        const price = await alpaca.getLatestQuote(modelSymbol)
+        handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
       }
       else{
         console.log("Criteria not satisfied")
@@ -92,6 +98,34 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum) {
       break;
   }
 
+}
+
+function handleTrade(symbol, quantity, entryPrice, risk, reward){
+  risk = risk.replace(/%/g, '')
+  reward = reward.replace(/%/g, '')
+
+  const riskPrice = parseFloat((entryPrice * (1 - (risk/100))).toFixed(2))
+  const rewardPrice = parseFloat((entryPrice * (1 + (reward/100))).toFixed(2))
+
+  console.log(`Bought ${quantity} shares of ${symbol} at ${entryPrice}`);
+
+  alpaca.createOrder({
+    symbol: symbol,
+    qty: quantity,
+    side: "sell",
+    type: "limit",
+    time_in_force: "gtc",
+    limit_price: entryPrice,
+    order_class: "oco",
+    stop_loss: {
+      stop_price: riskPrice,
+    },
+    take_profit: {
+      limit_price: rewardPrice,
+    },
+  });
+
+  console.log(`An order has been sent with your set risk of ${risk}% and your reward of ${reward}%`)
 }
 
 // need to decide what you will handle client side vs server side

@@ -51,7 +51,7 @@ $("#saveModel").click(function(){
   var modelIndicator = $("#modelIndicator option:selected").text();
   var modelIndicatorSpec = $("#modelIndicatorSpec option:selected").text();
   var modelMomentum = $("#modelMomentum option:selected").text();
-  
+
   axios.post('/data11', {
     modelName: modelName,
     modelSymbol: modelSymbol, 
@@ -69,4 +69,34 @@ $("#saveModel").click(function(){
     console.error(error);
   });
   $("#myModal").modal("hide");
+});
+
+
+
+// get references to the select elements
+const indicatorSelect = document.getElementById("modelIndicator");
+const indicatorSpecSelect = document.getElementById("modelIndicatorSpec");
+const momentumSelect = document.getElementById("modelMomentum");
+
+// add event listeners to the select elements
+indicatorSelect.addEventListener("change", () => {
+  // if "Technical Indicators" is selected, momentum trading cannot be selected
+  if (indicatorSelect.value !== "N/A") {
+    momentumSelect.value = "N/A";
+  }
+});
+
+indicatorSpecSelect.addEventListener("change", () => {
+  // if "Technical Indicators Specifications" is selected, momentum trading cannot be selected
+  if (indicatorSpecSelect.value !== "N/A") {
+    momentumSelect.value = "N/A";
+  }
+});
+
+momentumSelect.addEventListener("change", () => {
+  // if "Momentum Trading" is selected, set the other two select elements to "N/A"
+  if (momentumSelect.value !== "N/A") {
+    indicatorSelect.value = "N/A";
+    indicatorSpecSelect.value = "N/A";
+  }
 });

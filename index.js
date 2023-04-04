@@ -125,7 +125,7 @@ app.get('/data7', async (request, response) => {
 
 app.post('/data8', async (request, response) => {
   try {
-    const result = await momentumTrading(modelSymbol, modelQuantity, modelMomentum);
+    const result = await momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelRisk, modelReward);
     response.json(result);
   } catch (error) {
     console.error(error);
