@@ -41,15 +41,7 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
       console.log("This is bar 1", bar1)
       console.log("This is bar 2", bar2)
       if ((bar1 && bar2) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice)){
-        const order = await alpaca.createOrder({
-          symbol: modelSymbol,
-          qty: modelQuantity,
-          side: 'buy',
-          type: 'market',
-          time_in_force: 'gtc'
-        });
         const price = await alpaca.getLatestQuote(modelSymbol)
-        
         handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
         
       }
@@ -62,13 +54,6 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
       console.log("This is bar 2", bar2)
       console.log("This is bar 3", bar3)
       if ((bar1 && bar2 && bar3) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice) && (bar3.OpenPrice < bar3.ClosePrice)){
-        const order = await alpaca.createOrder({
-          symbol: modelSymbol,
-          qty: modelQuantity,
-          side: 'buy',
-          type: 'market',
-          time_in_force: 'gtc'
-        });
         const price = await alpaca.getLatestQuote(modelSymbol)
         handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
       }
@@ -82,13 +67,6 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
       console.log("This is bar 3", bar3)
       console.log("This is bar 4", bar4)
       if ((bar1 && bar2 && bar3 && bar4) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice) && (bar3.OpenPrice < bar3.ClosePrice) && (bar4.OpenPrice < bar4.ClosePrice)){
-        const order = await alpaca.createOrder({
-          symbol: modelSymbol,
-          qty: modelQuantity,
-          side: 'buy',
-          type: 'market',
-          time_in_force: 'gtc'
-        });
         const price = await alpaca.getLatestQuote(modelSymbol)
         handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
       }
@@ -101,6 +79,7 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
 }
 
 function handleTrade(symbol, quantity, entryPrice, risk, reward){
+  
   risk = risk.replace(/%/g, '')
   reward = reward.replace(/%/g, '')
 
@@ -112,11 +91,11 @@ function handleTrade(symbol, quantity, entryPrice, risk, reward){
   alpaca.createOrder({
     symbol: symbol,
     qty: quantity,
-    side: "sell",
+    side: "buy",
     type: "limit",
     time_in_force: "gtc",
     limit_price: entryPrice,
-    order_class: "oco",
+    order_class: "bracket",
     stop_loss: {
       stop_price: riskPrice,
     },
