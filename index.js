@@ -136,11 +136,29 @@ app.post('/data8', async (request, response) => {
 
 app.get('/data9', async (request, response) => {
   const alpaca = new Alpaca(options);
-  var portfolioHistory = await alpaca.getPortfolioHistory({
+  var portfolioHistory1 = await alpaca.getPortfolioHistory({
     period: '1M',
-    timeframe: '1D',
+    timeframe: '1D'
   });
-  response.send(portfolioHistory);
+  response.send(portfolioHistory1);
+})
+
+app.get('/data12', async (request, response) => {
+  const alpaca = new Alpaca(options);
+  var portfolioHistory2 = await alpaca.getPortfolioHistory({
+    period: '1D',
+    timeframe: '1H'
+  });
+  response.send(portfolioHistory2);
+})
+
+app.get('/data13', async (request, response) => {
+  const alpaca = new Alpaca(options);
+  var portfolioHistory3 = await alpaca.getPortfolioHistory({
+    period: '1A',
+    timeframe: '1D'
+  });
+  response.send(portfolioHistory3);
 })
 
 app.post('/data10', async (request, response) => {
