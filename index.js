@@ -4,6 +4,7 @@ const request = require('request');
 require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
 const { momentumTrading } = require('./public/js/momentum_trade.js');
+const { vwaptrading } = require('./public/js/vwap_trade.js');
 const { initializeApp } = require('firebase/app');
 const { getDatabase, push, ref, set } = require('firebase/database')
 
@@ -196,7 +197,33 @@ app.post('/data11', async (request, response) => {
     indicatorSpec: modelIndicatorSpec,
     momentum: modelMomentum
   });
+})
 
+
+app.post('/data14', async (request, response) => {
+  try {
+    const result = await vwaptrading(modelSymbol, modelQuantity, modelIndicator, modelIndicatorSpec, modelRisk, modelReward);
+    response.json(result);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+
+app.get('/data15', async (request, response) => {
+  const data = {
+    indicator: modelIndicator,
+    indicatorSpec: modelIndicatorSpec,
+    momentum: modelMomentum
+  }
+  response.send(data);
+})
+
+
+app.post('/tradingstopped', async (request, response) => {
+  console.log("Trading has been stopped");
+  response.end();
 })
 
 // Start the server

@@ -30,29 +30,28 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
     bars.push(b);
   }
 
-  const bar1 = bars[0];
-  const bar2 = bars[1];
-  const bar3 = bars[2];
-  const bar4 = bars[3];
+  const bar1 = bars[0]; // 3 minutes behind
+  const bar2 = bars[1]; // 2 minutes behind
+  const bar3 = bars[2]; // 1 minute behind
+  const bar4 = bars[3]; // most recent
 
   switch(modelMomentum){
   // check if the previous two bars have increasing prices, if so, we will buy at market price
     case "Buy when there are 2 uptrending bars":
-      console.log("This is bar 1", bar1)
-      console.log("This is bar 2", bar2)
+      console.log("bar 1", bar1)
+      console.log("bar 2", bar2)
       if ((bar1 && bar2) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice)){
         const price = await alpaca.getLatestQuote(modelSymbol)
-        handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
-        
+        handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward) 
       }
       else{
         console.log("Criteria not satisfied")
       }
       break;
     case "Buy when there are 3 uptrending bars":
-      console.log("This is bar 1", bar1)
-      console.log("This is bar 2", bar2)
-      console.log("This is bar 3", bar3)
+      console.log("bar 1", bar1)
+      console.log("bar 2", bar2)
+      console.log("bar 3", bar3)
       if ((bar1 && bar2 && bar3) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice) && (bar3.OpenPrice < bar3.ClosePrice)){
         const price = await alpaca.getLatestQuote(modelSymbol)
         handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
@@ -62,10 +61,10 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
       }
       break;
     case "Buy when there are 4 uptrending bars":
-      console.log("This is bar 1", bar1)
-      console.log("This is bar 2", bar2)
-      console.log("This is bar 3", bar3)
-      console.log("This is bar 4", bar4)
+      console.log("bar 1", bar1)
+      console.log("bar 2", bar2)
+      console.log("bar 3", bar3)
+      console.log("bar 4", bar4)
       if ((bar1 && bar2 && bar3 && bar4) && (bar1.OpenPrice < bar1.ClosePrice) && (bar2.OpenPrice < bar2.ClosePrice) && (bar3.OpenPrice < bar3.ClosePrice) && (bar4.OpenPrice < bar4.ClosePrice)){
         const price = await alpaca.getLatestQuote(modelSymbol)
         handleTrade(modelSymbol, modelQuantity, price.AskPrice, modelRisk, modelReward)
@@ -75,7 +74,6 @@ async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelR
       }
       break;
   }
-
 }
 
 function handleTrade(symbol, quantity, entryPrice, risk, reward){
