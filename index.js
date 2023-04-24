@@ -6,7 +6,7 @@ const Alpaca = require("@alpacahq/alpaca-trade-api");
 const { momentumTrading } = require('./public/js/momentum_trade.js');
 const { vwaptrading } = require('./public/js/vwap_trade.js');
 const { initializeApp } = require('firebase/app');
-const { getDatabase, push, ref, set } = require('firebase/database')
+const { getDatabase, push, ref, set, child, get } = require('firebase/database')
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -219,6 +219,32 @@ app.get('/data15', async (request, response) => {
   }
   response.send(data);
 })
+
+app.get('/data16', async (request, response) => {
+  const dbRef = ref(getDatabase(firebaseApp));
+  get(child(dbRef, 'models')).then((snapshot) => {
+    const models = [];
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        const model = childSnapshot.val();
+        models.push({
+          name: model.name, 
+          indicator: model.indicator,
+          indicatorSpec: model.indicatorSpec, 
+          momentum: model.momentum,
+          quantity: model.quantity, 
+          reward: model.reward, 
+          risk: model.risk, 
+          symbol: model.symbol, 
+          time: model.time });
+      });
+    }
+    response.send(models)
+  }).catch((error) => {
+    console.error(error);
+    res.status(500).send(error);
+  });
+});
 
 
 app.post('/tradingstopped', async (request, response) => {

@@ -41,6 +41,8 @@
                       <option value="stock1">AAPL</option>
                       <option value="stock2">GOOGL</option>
                       <option value="stock3">TSLA</option>
+                      <option value="stock3">ONTX</option>
+                      <option value="stock3">MGRX</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -118,13 +120,36 @@
             </div>
           </div>
         </div>
+        <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel2">Load a Model</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="name">Saved Models</label>
+                    <select class="form-control" id="loadModelNames">
+                    </select>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="loadModel">Load Model</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Create a Model</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Load a Model</a>
+            <li class="nav-item" id="initialModal2press">
+              <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#myModal2">Load a Model</a>
             </li>
           </ul>
         </div>
@@ -208,6 +233,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
     <script src="js/created_model.js"></script>
+    <script src="js/load_model.js"></script>
     <script src="js/profit_chart.js"></script>
     <script src="js/dropdown.js"></script>
     <script src="js/place_order.js"></script>
