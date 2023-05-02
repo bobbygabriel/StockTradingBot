@@ -103,6 +103,4 @@ function handleTrade(symbol, quantity, entryPrice, risk, reward){
   console.log(`An order has been sent with your set risk of ${risk}% and your reward of ${reward}%`)
 }
 
-// need to decide what you will handle client side vs server side
-// after you enter a trade, you need to stop taking in bars and focus on selling at end of the bar
 module.exports = {vwaptrading};
