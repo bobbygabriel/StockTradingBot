@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const request = require('request');
+const bodyParser = require('body-parser');
 require('dotenv').config()
 const Alpaca = require("@alpacahq/alpaca-trade-api");
 const { momentumTrading } = require('./public/js/momentum_trade.js');
@@ -10,14 +11,14 @@ const { getDatabase, push, ref, set, child, get } = require('firebase/database')
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBv7YesHh5bwUjEzOf-s8QCpIt2PhAdO0I",
-  authDomain: "trademind-42b3d.firebaseapp.com",
-  projectId: "trademind-42b3d",
-  storageBucket: "trademind-42b3d.appspot.com",
-  messagingSenderId: "574010239698",
-  appId: "1:574010239698:web:b0356fcb8bb3e56ccddb0b",
-  measurementId: "G-9YNYEVE9CR",
-  databaseURL: "https://trademind-42b3d-default-rtdb.firebaseio.com/"
+  apiKey: process.env.FBAPIKey,
+  authDomain: process.env.FBAuthDomain,
+  projectId: process.env.FBProjectId,
+  storageBucket: process.env.FBStorageBucket,
+  messagingSenderId: process.env.FBMessagingSenderId,
+  appId: process.env.FBAppId,
+  measurementId: process.env.FBMeasurementId,
+  databaseURL: process.env.FBDatabaseURL
 };
 
  // Initialize Firebase
@@ -26,7 +27,6 @@ const database = getDatabase(firebaseApp)
 
 
 
-var bodyParser = require('body-parser');
 var symbol = "";
 var order = "";
 var quantity = 0;
@@ -68,27 +68,22 @@ app.get('/', function(req, res){
   res.render('index');
 })
 
-app.post('/data1', (request, response) => {
+app.post('/TickerData', (request, response) => {
   symbol = request.body.TickerSymbol;
   response.send(symbol)
 });
 
-app.post('/data2', (request, response) => {
+app.post('/OrderTypeData', (request, response) => {
   order = request.body.OrderType;
   response.send(order)
 });
 
-app.post('/data3', (request, response) => {
+app.post('/QuantityData', (request, response) => {
   quantity = request.body.Quantity;
   response.send(quantity)
 });
 
-app.post('/data4', (request, response) => {
-  risk_reward = request.body.RiskReward;
-  response.send(risk_reward)
-});
-
-app.post('/data5', async (request, response) => {
+app.post('/OrderSubmission', async (request, response) => {
   console.log(`Symbol: ${symbol} Quantity: ${quantity}`)
   response.write(symbol)
   response.write(order)
@@ -110,21 +105,21 @@ app.post('/data5', async (request, response) => {
   response.end();
 })
 
-app.get('/data6', async (request, response) => {
+app.get('/CurrentPositions', async (request, response) => {
   const alpaca = new Alpaca(options);
   var positions = await alpaca.getPositions();
   response.send(positions)
 
 })
 
-app.get('/data7', async (request, response) => {
+app.get('/AccountBalance', async (request, response) => {
   const alpaca = new Alpaca(options);
   var account = await alpaca.getAccount();
   response.send(account)
 
 })
 
-app.post('/data8', async (request, response) => {
+app.post('/MomentumTrading', async (request, response) => {
   try {
     const result = await momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelRisk, modelReward);
     response.json(result);
@@ -135,7 +130,7 @@ app.post('/data8', async (request, response) => {
 
 })
 
-app.get('/data9', async (request, response) => {
+app.get('/PortfolioHistoryMD', async (request, response) => {
   const alpaca = new Alpaca(options);
   var portfolioHistory1 = await alpaca.getPortfolioHistory({
     period: '1M',
@@ -144,25 +139,7 @@ app.get('/data9', async (request, response) => {
   response.send(portfolioHistory1);
 })
 
-app.get('/data12', async (request, response) => {
-  const alpaca = new Alpaca(options);
-  var portfolioHistory2 = await alpaca.getPortfolioHistory({
-    period: '1D',
-    timeframe: '1H'
-  });
-  response.send(portfolioHistory2);
-})
-
-app.get('/data13', async (request, response) => {
-  const alpaca = new Alpaca(options);
-  var portfolioHistory3 = await alpaca.getPortfolioHistory({
-    period: '1A',
-    timeframe: '1D'
-  });
-  response.send(portfolioHistory3);
-})
-
-app.post('/data10', async (request, response) => {
+app.post('/SendSelectedParams', async (request, response) => {
   modelSymbol = request.body.modelSymbol;
   modelQuantity = request.body.modelQuantity;
   modelRisk = request.body.modelRisk;
@@ -174,7 +151,7 @@ app.post('/data10', async (request, response) => {
   console.log(modelSymbol, modelQuantity, modelRisk, modelReward, modelTime, modelIndicator, modelIndicatorSpec, modelMomentum)
 })
 
-app.post('/data11', async (request, response) => {
+app.post('/SaveParams', async (request, response) => {
   modelName = request.body.modelName;
   modelSymbol = request.body.modelSymbol;
   modelQuantity = request.body.modelQuantity;
@@ -199,8 +176,27 @@ app.post('/data11', async (request, response) => {
   });
 })
 
+app.get('/PortfolioHistoryDH', async (request, response) => {
+  const alpaca = new Alpaca(options);
+  var portfolioHistory2 = await alpaca.getPortfolioHistory({
+    period: '1D',
+    timeframe: '1H'
+  });
+  response.send(portfolioHistory2);
+})
 
-app.post('/data14', async (request, response) => {
+app.get('/PortfolioHistoryYD', async (request, response) => {
+  const alpaca = new Alpaca(options);
+  var portfolioHistory3 = await alpaca.getPortfolioHistory({
+    period: '1A',
+    timeframe: '1D'
+  });
+  response.send(portfolioHistory3);
+})
+
+
+
+app.post('/VWAPTrading', async (request, response) => {
   try {
     const result = await vwaptrading(modelSymbol, modelQuantity, modelIndicator, modelIndicatorSpec, modelRisk, modelReward);
     response.json(result);
@@ -211,7 +207,7 @@ app.post('/data14', async (request, response) => {
 })
 
 
-app.get('/data15', async (request, response) => {
+app.get('/BeginTrading', async (request, response) => {
   const data = {
     indicator: modelIndicator,
     indicatorSpec: modelIndicatorSpec,
@@ -220,7 +216,7 @@ app.get('/data15', async (request, response) => {
   response.send(data);
 })
 
-app.get('/data16', async (request, response) => {
+app.get('/DatabaseModels', async (request, response) => {
   const dbRef = ref(getDatabase(firebaseApp));
   get(child(dbRef, 'models')).then((snapshot) => {
     const models = [];

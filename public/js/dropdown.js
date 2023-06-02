@@ -1,15 +1,15 @@
-$('#TickerType a').click(function(){
+$('#TickerType a').on("click", function(){
     $('#TickerMenuButton').text($(this).text());
   });
 
-$('#OrderType a').click(function(){
+$('#OrderType a').on("click", function(){
     $('#OrderMenuButton').text($(this).text());
   });
 
-$('#RiskReward a').click(function(){
+$('#RiskReward a').on("click", function(){
   $('#RiskRewardButton').text($(this).text());
 });
 
-$('#Quantity a').click(function(){
+$('#Quantity a').on("click", function(){
   $('#QuantityButton').text($(this).text());
 });

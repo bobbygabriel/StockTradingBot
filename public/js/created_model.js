@@ -1,4 +1,4 @@
-$("#launchModel").click(function(){  
+$("#launchModel").on("click", function(){  
 
   var modelName = $("#modelName").val();
   var modelSymbol = $("#modelSymbol option:selected").text();
@@ -10,7 +10,14 @@ $("#launchModel").click(function(){
   var modelIndicatorSpec = $("#modelIndicatorSpec option:selected").text();
   var modelMomentum = $("#modelMomentum option:selected").text();
   // Add the values to the #modelValues container
-  $("#modelValues").html("<p>Model name: " + modelName + "</p>"
+  if(modelIndicator === 'N/A' && modelIndicatorSpec === 'N/A' && modelMomentum === 'N/A'){
+    alert("Must select criteria for trading.")
+  }
+  else if(modelName === ""){
+    alert("Must give trading model a name.")
+  }
+  else{
+    $("#modelValues").html("<p>Model name: " + modelName + "</p>"
                          + "<p>Symbol: " + modelSymbol + "</p>"
                          + "<p>Quantity: " + modelQuantity + "</p>"
                          + "<p>Risk: " + modelRisk + "</p>"
@@ -19,7 +26,7 @@ $("#launchModel").click(function(){
                          + "<p>Technical Indicators: " + modelIndicator + "</p>"
                          + "<p>Indicator Specifications: " + modelIndicatorSpec + "</p>"
                          + "<p>Momentum: " + modelMomentum + "</p>");
-  axios.post('/data10', {
+  axios.post('/SendSelectedParams', {
       modelSymbol: modelSymbol, 
       modelQuantity: modelQuantity, 
       modelRisk: modelRisk, 
@@ -33,14 +40,14 @@ $("#launchModel").click(function(){
     })
     .catch(function (error) {
       console.error(error);
-  });
-
-  $("#myModal").modal("hide");
+    });
+    $("#myModal").modal("hide");
+  }
 });
   
 
 
-$("#saveModel").click(function(){
+$("#saveModel").on("click", function(){
 
   var modelName = $("#modelName").val();
   var modelSymbol = $("#modelSymbol option:selected").text();
@@ -52,23 +59,31 @@ $("#saveModel").click(function(){
   var modelIndicatorSpec = $("#modelIndicatorSpec option:selected").text();
   var modelMomentum = $("#modelMomentum option:selected").text();
 
-  axios.post('/data11', {
-    modelName: modelName,
-    modelSymbol: modelSymbol, 
-    modelQuantity: modelQuantity, 
-    modelRisk: modelRisk, 
-    modelReward: modelReward, 
-    modelTime: modelTime, 
-    modelIndicator: modelIndicator, 
-    modelIndicatorSpec: modelIndicatorSpec, 
-    modelMomentum: modelMomentum})
-  .then(function (response) {
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
-  $("#myModal").modal("hide");
+  if(modelIndicator === 'N/A' && modelIndicatorSpec === 'N/A' && modelMomentum === 'N/A'){
+    alert("Must select criteria for trading.")
+  }
+  else if(modelName === ""){
+    alert("Must give trading model a name.")
+  }
+  else{
+    axios.post('/SaveParams', {
+      modelName: modelName,
+      modelSymbol: modelSymbol, 
+      modelQuantity: modelQuantity, 
+      modelRisk: modelRisk, 
+      modelReward: modelReward, 
+      modelTime: modelTime, 
+      modelIndicator: modelIndicator, 
+      modelIndicatorSpec: modelIndicatorSpec, 
+      modelMomentum: modelMomentum})
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+    $("#myModal").modal("hide");
+  }
 });
 
 

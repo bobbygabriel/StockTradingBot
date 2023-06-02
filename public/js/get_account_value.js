@@ -1,7 +1,7 @@
 const accountDataContainer = document.getElementById('AccountValue');
 
 function updateAccountData() {
-    axios.get('/data7')
+    axios.get('/AccountBalance')
     .then(response => {
       const dataArray = response.data;
       $('#AccountValue').popover({

@@ -1,7 +1,7 @@
 const dataContainer = document.getElementById('openPositions');
 
 function updatePositionData() {
-  axios.get('/data6')
+  axios.get('/CurrentPositions')
   .then(response => {
     const dataArray = response.data;
     let listItems = '';

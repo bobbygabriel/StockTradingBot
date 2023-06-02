@@ -1,8 +1,7 @@
 var models;
 
-
 $("#initialModal2press").click(function(){
-  axios.get('/data16').then((response) => {
+  axios.get('/DatabaseModels').then((response) => {
     
     models = response.data;
     const modelSymbolSelect = document.getElementById('loadModelNames');
@@ -56,7 +55,7 @@ $("#loadModel").click(function(){
                          + "<p>Technical Indicators: " + modelIndicator + "</p>"
                          + "<p>Indicator Specifications: " + modelIndicatorSpec + "</p>"
                          + "<p>Momentum: " + modelMomentum + "</p>");
-  axios.post('/data10', {
+  axios.post('/SendSelectedParams', {
       modelSymbol: modelSymbol, 
       modelQuantity: modelQuantity, 
       modelRisk: modelRisk, 

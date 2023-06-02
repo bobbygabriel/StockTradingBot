@@ -18,7 +18,7 @@ dropdown1.addEventListener("click", function(event) {
   var target = event.target;
   if (target.tagName === "A") {
     var TickerSymbol = target.textContent;
-    axios.post('/data1', { TickerSymbol: TickerSymbol })
+    axios.post('/TickerData', { TickerSymbol: TickerSymbol })
       .then(function (response) {
         console.log(response.data);
       })
@@ -34,7 +34,7 @@ dropdown2.addEventListener("click", function(event) {
   var target = event.target;
   if (target.tagName === "A") {
     var OrderType = target.textContent;
-    axios.post('/data2', { OrderType: OrderType })
+    axios.post('/OrderTypeData', { OrderType: OrderType })
       .then(function (response) {
         console.log(response.data);
       })
@@ -49,7 +49,7 @@ dropdown3.addEventListener("click", function(event) {
   var target = event.target;
   if (target.tagName === "A") {
     var Quantity = target.textContent;
-    axios.post('/data3', { Quantity: Quantity })
+    axios.post('/QuantityData', { Quantity: Quantity })
       .then(function (response) {
         console.log(response.data);
       })
@@ -62,7 +62,7 @@ dropdown3.addEventListener("click", function(event) {
 
 button.addEventListener("click", function() {
   
-  axios.post('/data5')
+  axios.post('/OrderSubmission')
     .then(function (response) {
       console.log(response.data);
     })
@@ -74,14 +74,14 @@ button.addEventListener("click", function() {
 
 
 button1.addEventListener("click", function() {
-  axios.get('/data15')
+  axios.get('/BeginTrading')
     .then(response => {
       modelIndicator = response.data.indicator;
       modelIndicatorSpec = response.data.indicatorSpec;
       modelMomentum = response.data.momentum;
 
       if(!modelIndicator && !modelIndicatorSpec && modelMomentum){
-        axios.post('/data8')
+        axios.post('/MomentumTrading')
           .then(function (response) {
             console.log(response.data);
           })
@@ -92,7 +92,7 @@ button1.addEventListener("click", function() {
 
         // run the backend code every minute
         intervalId = setInterval(function() {
-          axios.post('/data8')
+          axios.post('/MomentumTrading')
             .then(function (response) {
               console.log(response.data);
             })
@@ -102,7 +102,7 @@ button1.addEventListener("click", function() {
         }, 60000); // 60000 milliseconds = 1 minute
       }
       else if(modelIndicator && modelIndicatorSpec && !modelMomentum){
-        axios.post('/data14')
+        axios.post('/VWAPTrading')
           .then(function (response) {
             console.log(response.data);
           })
@@ -113,7 +113,7 @@ button1.addEventListener("click", function() {
 
         // run the backend code every minute
         intervalId = setInterval(function() {
-          axios.post('/data14')
+          axios.post('/VWAPTrading')
             .then(function (response) {
               console.log(response.data);
             })

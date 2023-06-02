@@ -2,8 +2,8 @@
 const ctx = document.getElementById('profitChart');
 var myChart;
 
-
-axios.get('/data9')
+// This view is default on website launch
+axios.get('/PortfolioHistoryMD')
   .then(portfolioHistory1 => {
     // Process the portfolio history data
     var oldTime = portfolioHistory1.data.timestamp
@@ -55,11 +55,12 @@ axios.get('/data9')
 });
 
 
+// this view is same as above when needed to toggle between timeframes
 var toggleButton1 = document.getElementById('profitChartView1');
   toggleButton1.addEventListener('click', function() {
   myChart.destroy()
     // Update the chart data and options based on the user's selection
-  axios.get('/data9')
+  axios.get('/PortfolioHistoryMD')
     .then(portfolioHistory1 => {
     // Process the portfolio history data
     var oldTime = portfolioHistory1.data.timestamp
@@ -116,7 +117,7 @@ var toggleButton2 = document.getElementById('profitChartView2');
 toggleButton2.addEventListener('click', function() {
   // Update the chart data and options based on the user's selection
   myChart.destroy()
-  axios.get('/data12')
+  axios.get('/PortfolioHistoryDH')
     .then(portfolioHistory2 => {
     // Process the portfolio history data
     var oldTime = portfolioHistory2.data.timestamp
@@ -175,7 +176,7 @@ var toggleButton2 = document.getElementById('profitChartView3');
 toggleButton2.addEventListener('click', function() {
   // Update the chart data and options based on the user's selection
   myChart.destroy()
-  axios.get('/data13')
+  axios.get('/PortfolioHistoryYD')
     .then(portfolioHistory3 => {
     // Process the portfolio history data
     var oldTime = portfolioHistory3.data.timestamp
