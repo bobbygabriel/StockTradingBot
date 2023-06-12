@@ -1,6 +1,7 @@
 var models;
 
-$("#initialModal2press").click(function(){
+// Grabs all of the models in the database and puts them in a dropdown list by name of model
+$("#initialModal2press").on("click", function(){
   axios.get('/DatabaseModels').then((response) => {
     
     models = response.data;
@@ -17,8 +18,8 @@ $("#initialModal2press").click(function(){
 })
 
 
-
-$("#loadModel").click(function(){    
+// When the user chooses a model and presses 'Load Model', it will search for the model name in the firebase database and pull all of its saved values to add to the 'Selected Model' container which the user can view on the website
+$("#loadModel").on("click", function(){    
         
     var modelChosen = $("#loadModelNames option:selected").text();
 

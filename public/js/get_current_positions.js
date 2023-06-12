@@ -1,5 +1,6 @@
 const dataContainer = document.getElementById('openPositions');
 
+// Displays all current positions the user is in. Updates every 5 seconds.
 function updatePositionData() {
   axios.get('/CurrentPositions')
   .then(response => {

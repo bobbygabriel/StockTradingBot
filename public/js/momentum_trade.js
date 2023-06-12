@@ -11,7 +11,10 @@ const options = {
 
 const alpaca = new Alpaca(options);
 
-// Get data from previous 2 bars
+// Handles all logic for user selecting momentum trading
+// gets current list of bar data for selected symbol
+// compares the opening and closing prices
+// Either places an order or not depending on criteria selected
 async function momentumTrading(modelSymbol, modelQuantity, modelMomentum, modelRisk, modelReward) {
 
   const oneMinuteMS = 60000;

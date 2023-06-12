@@ -26,11 +26,10 @@ const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase(firebaseApp)
 
 
-
+// global variables for manipulation and storage
 var symbol = "";
 var order = "";
 var quantity = 0;
-var risk_reward = "";
 var modelSymbol = "";
 var modelQuantity = "";
 var modelRisk = "";

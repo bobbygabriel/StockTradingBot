@@ -12,7 +12,7 @@ var modelIndicatorSpec;
 let intervalId;
 
 
-
+// Dropdown events handle sending the selected value to the server for processing
 
 dropdown1.addEventListener("click", function(event) {
   var target = event.target;
@@ -72,7 +72,7 @@ button.addEventListener("click", function() {
     alert('Your order has been submitted!')
 });
 
-
+// Trading starts, calls the trading function every minute for updated data, wont stop until a button is pressed
 button1.addEventListener("click", function() {
   axios.get('/BeginTrading')
     .then(response => {
@@ -133,7 +133,7 @@ button1.addEventListener("click", function() {
 
 
 
-
+// Trading Stopped button will kill the api call loop for getting bar data
 button2.addEventListener("click", function() {
   clearInterval(intervalId);
   alert('Trading Stopped');

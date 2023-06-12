@@ -1,3 +1,6 @@
+
+
+// On the Launch Model button, all values inserted by the user are sent to the node.js server to be used as global variables where needed.
 $("#launchModel").on("click", function(){  
 
   var modelName = $("#modelName").val();
@@ -46,6 +49,7 @@ $("#launchModel").on("click", function(){
 });
   
 
+// On the Save Model button, all inserted fields are sent to the firebase realtime database.
 
 $("#saveModel").on("click", function(){
 
@@ -88,28 +92,26 @@ $("#saveModel").on("click", function(){
 
 
 
-// get references to the select elements
 const indicatorSelect = document.getElementById("modelIndicator");
 const indicatorSpecSelect = document.getElementById("modelIndicatorSpec");
 const momentumSelect = document.getElementById("modelMomentum");
 
-// add event listeners to the select elements
+
+// Momentum trading and VWAP trading cannot be selected together at this time.
+
 indicatorSelect.addEventListener("change", () => {
-  // if "Technical Indicators" is selected, momentum trading cannot be selected
   if (indicatorSelect.value !== "N/A") {
     momentumSelect.value = "N/A";
   }
 });
 
 indicatorSpecSelect.addEventListener("change", () => {
-  // if "Technical Indicators Specifications" is selected, momentum trading cannot be selected
   if (indicatorSpecSelect.value !== "N/A") {
     momentumSelect.value = "N/A";
   }
 });
 
 momentumSelect.addEventListener("change", () => {
-  // if "Momentum Trading" is selected, set the other two select elements to "N/A"
   if (momentumSelect.value !== "N/A") {
     indicatorSelect.value = "N/A";
     indicatorSpecSelect.value = "N/A";

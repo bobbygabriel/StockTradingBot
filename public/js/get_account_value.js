@@ -1,5 +1,6 @@
 const accountDataContainer = document.getElementById('AccountValue');
 
+// Displays the account balance to the user on hover over the button. Refreshes every 2 seconds.
 function updateAccountData() {
     axios.get('/AccountBalance')
     .then(response => {
